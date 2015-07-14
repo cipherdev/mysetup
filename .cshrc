@@ -77,15 +77,20 @@ set host = `/bin/hostname -s`
 switch ( "$host" )
 	case "hcmlab-sw7":
 		# Set Perforce 
-		setenv P4CONFIG .p4settings
+		setenv P4CONFIG /AMCC/hule/p4/.p4settings
 		setenv P4V_HOME '/tools/perforce/p4/v2012.1'
-		set path=(${P4V_HOME}/bin /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /etc /usr/X11R6/bin /tools/perforce/p4/v2012.1/bin ~/bin)
-
+		set path=(${P4V_HOME}/bin /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin /etc ~/bin)
 		#set grep
-		setenv WORKDIR 'AMCC/hule'
-		alias workdir 'cd /AMCC/hule'
+		setenv WORKDIR '/AMCC/hule'
+		setenv pro '/AMCC/hule/p4/processor'
+		setenv ref '/AMCC/hule/p4/refPlatforms'
+		alias ccgrep 'find . -type f -print0 | xargs -0 -e grep --color=always -nH -e'
+		alias ccgrep1 'find . -name \*.cpp -or -name \*.h -or -name \*.c | xargs grep --color=always -nrH -e'
 		alias p4dir  'cd /AMCC/hule/p4'
 		alias cgrep 'grep --color=always'
+		alias cs 'cscope -b -q -k -R'
+		alias cls 'clear'
+		alias em 'emacs -nw'
 		breaksw
 	default:
         /bin/echo "HOST unknown."
