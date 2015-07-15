@@ -1,0 +1,157 @@
+;;=============================================
+;;= Auto script macro test software command   =
+;;= Author: HuyLe, email: hule@apm.com        =
+;;= Date: Mon Jun 22 10:29:57 ICT 2015        =
+;;=============================================
+
+;;====================
+;;= Define for uboot =
+;;====================
+
+BoardID     = 'Mustang#'
+SearchStr1  = '.*autoboot:*'
+
+;;========================
+;;= Define for tianocore =
+;;========================
+
+SearchStr2  = '.*second:*'
+SearchStr3  = 'Start:'
+
+;;======================
+;;= Lable for testing: =
+;;= A- reset_tianocore =
+;;= B- reset_uboot     =
+;;= C- reset_ulinux    =
+;;= D- reset_tlinux    =
+;;======================
+
+folder  = 'c:\testing\hule'
+foldersearch folder
+	if result=1 then
+	   	logopen 'c:\testing\hule\logfile_%d%m%Y-%H%M%S.txt' 0 0
+		goto reset_tianocore
+	else
+		foldercreate 'c:\testing\hule'
+		logopen 'c:\testing\hule\logfile_%d%m%Y-%H%M%S.txt' 0 0
+		goto reset_tianocore
+	endif
+
+;;===============
+;;Reset tianocore
+;;===============
+:reset_tianocore
+	inputbox 'Input number testing' 'TESTING'
+	str2int key inputstr
+	while key > 0
+		key = key - 1
+		waitregex SearchStr2
+		sendln #13	;enter key
+		waitregex SearchStr3
+		sendln "9"
+	endwhile
+	if key = 0 then
+		waitregex SearchStr2
+		sendln #13
+		sprintf "Timestesting = % d" key
+		messagebox inputstr 'Tested done'
+		messagebox 'Close' 'Exit testcase'
+		logclose	
+	endif
+end
+
+;;===========
+;;Reset uboot
+;;===========
+:reset_uboot
+	inputbox 'Input number testing' 'TESTING'
+	str2int key inputstr
+    while key > 0
+		key = key - 1
+		waitregex SearchStr1
+		sendln #13  
+		waitregex BoardID
+		sendln "reset"
+    endwhile
+    if key = 0 then
+		waitregex SearchStr1
+		sendln #13
+		sprintf "Timestesting = % d" key
+		messagebox inputstr 'Tested done'
+		messagebox 'Close' 'Exit testcase'
+		logclose
+    endif
+end
+
+;;============================
+;;The boot to linux from uboot
+;;============================
+:reset_ulinux
+	inputbox 'Input number testing' 'TESTING'
+	str2int key inputstr
+	while key > 0
+		key = key - 1
+		waitregex SearchStr1
+		sendln #13  
+		waitregex BoardID
+		pause 1		
+		sendln "run net_self"
+	;; Boot to the linux
+	;; Login to linux: root-root
+		waitregex ".*login:"
+		sendln "root"
+		waitregex "Password:"
+		sendln "root"
+	;; Check device on linux
+		sendln "ls -l /sys/block/"
+		sendln "lsscsi"
+	;; Pause for 3 seconds and reboot
+		pause 1
+		sendln "reboot"
+    endwhile
+    if key = 0 then
+		waitregex SearchStr1
+		sendln #13
+		sprintf "Timestesting = % d" key
+		messagebox inputstr 'Tested done'
+		messagebox 'Close' 'Exit testcase'
+		logclose
+    endif
+end
+
+;;================================
+;;The boot to linux from tianocore
+;;================================
+:reset_tlinux
+	inputbox 'Input number testing' 'TESTING'
+	str2int key inputstr
+	while key > 0
+		key = key - 1
+		waitregex SearchStr2
+		sendln #13
+		waitregex SearchStr3
+		sendln "3"
+	;; Boot to the linux
+	;; Login to linux: root-root
+		waitregex ".*login:"
+		sendln "root"
+		waitregex "Password:"
+		sendln "root"
+	;; Check device on linux
+	;sendln "ls -l /sys/block/"
+		sendln "lsscsi"
+	;; Pause for 1 seconds and reboot 
+		pause 1
+		sendln "reboot"
+	endwhile
+	if key = 0 then
+		waitregex SearchStr2
+		sendln #13
+		sprintf "Timestesting = % d" key
+		messagebox inputstr 'Tested done'
+		messagebox 'Close' 'Exit testcase'
+		logclose	
+	endif
+end
+
+;;======================================================

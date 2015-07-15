@@ -1,0 +1,211 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# make less more friendly for non-text input files, see lesspipe(1)
+#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color) color_prompt=yes;;
+esac
+
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+
+if [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
+fi
+
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias vi='vim'
+
+#export CS_TOOLCHAIN_PATH=/tools/codesourcery/sourceryg/powerpc/lite/4.4-254
+#export CS_TOOLCHAIN_PATH=/opt/toolchain/codesourcery/apm-2010.09
+#export CS_TOOLCHAIN_PATH=/opt/apm-2010.09-v110
+#export CS_TOOLCHAIN_PATH=/tools/codesourcery/sourceryg/powerpc/lite/2010.09-100
+#export CS_TOOLCHAIN_PREFIX=powerpc-apm-linux-gnu
+
+export OSS_LOCAL_MIRROR=10.38.12.18/opensource/packages
+export BUILDROOT_DL_DIR=/opensource/packages
+
+#P4_PATH=/tools/perforce/p4/v2009.2
+#P4_PATH=/opt/perforce/bin
+export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ "
+
+#if [ -f "$HOME/.bash_ps1" ]; then
+
+#. "$HOME/.bash_ps1"
+#fi
+
+export PATH=$CS_TOOLCHAIN_PATH/bin:$P4_PATH/bin:$PATH
+# Alias definitions.
+export SVN_EDITOR=vi
+export EDITOR=vim
+
+# TOOLCHAIN
+#set path=(/tools/codesourcery/sourceryg/powerpc/lite/4.4-254/bin /usr/sbin /tools/eldk/4.2/sbin/ /tools/eldk/4.2/usr/bin /tools/eldk/4.2/bin ~/bin /bin /usr/bin /usr/ucb /etc /usr/X11R6/bin /tools/perforce/p4/v2007.2/bin/ )
+#set path=(/tools/codesourcery/sourceryg/powerpc/lite/2010.09-100/bin /usr/sbin /tools/eldk/4.2/sbin/ /tools/eldk/4.2/usr/bin /tools/eldk/4.2/bin ~/bin /bin /usr/bin /usr/ucb /etc /usr/X11R6/bin /tools/perforce/p4/v2007.2/bin/ )
+#set path=(/tools/codesourcery/sourceryg/powerpc/lite/2010.09-100/bin /usr/sbin ~/bin /bin /usr/bin /usr/ucb /etc /usr/X11R6/bin /tools/perforce/p4/v2007.2/bin/ )
+export P4PORT=hcmlic03:1666
+#export P4PORT=ipcswsvdc:1666
+#export P4PORT=10.66.16.103:1666
+export P4DIFF=/usr/bin/diff
+export P4USER=dthnguyen 
+export P4PASSWD=amcc1234
+export P4EDITOR=vim
+export resources_place=/win/hcm/shared/engineering/SOFTWARE_VDC/
+export myplace=/AMCC/dthnguyen 
+alias sw_build="export P4CLIENT=dthnguyen_hcmlab_sw4_build; \
+	cd /AMCC/dthnguyen/p4_build/"
+alias sw_release="export P4CLIENT=dthnguyen_sw4_release; \
+        export WORKSPACE=/AMCC/dthnguyen/p4_release; \
+	cd /AMCC/dthnguyen/p4_release/"
+#alias swb "export P4CLIENT hpham_swb; \
+#        export WORKSPACE /AMCC/hpham/build; \
+#	cd /AMCC/hpham/build/refPlatforms/"
+# Add all files in workspace
+alias p4add='find . -type f | p4 -x- add'
+# Find new files that are not added to P4 yet
+alias p4new='find . -type f | p4 -x- have > /dev/null 2>& missing.txt'
+# Find files that are edited but not opened
+alias p4dirty='p4 diff -se'
+alias p4missing='p4 diff -sd'
+
+export BUILDROOT_DL_DIR=/opensource/packages
+# codesourcery toolchain
+#export CS_TOOLCHAIN_PATH /tools/codesourcery/sourceryg/powerpc/lite/4.4-254
+#export CROSS_COMPILE powerpc-linux-gnu-
+#export CS_TOOLCHAIN_PREFIX powerpc-linux-gnu
+# eldk toolchain
+#export CROSS_COMPILE powerpc-linux-
+#export CS_TOOLCHAIN_PREFIX powerpc-linux
+#export CS_TOOLCHAIN_PATH /tools/codesourcery/sourceryg/powerpc/lite/2010.09-100
+#export CROSS_COMPILE powerpc-apm-linux-gnu-
+#export CS_TOOLCHAIN_PREFIX powerpc-apm-linux-gnu
+#export CS_TOOLCHAIN_VER 4.4-254 
+export CS_TOOLCHAIN_VER=2010.09-110
+export CS_TOOLCHAIN_PATH=/tools/codesourcery/sourceryg/powerpc/lite/${CS_TOOLCHAIN_VER}
+export CS_TOOLCHAIN_PPC_PATH=/tools/codesourcery/sourceryg/powerpc/native
+export CS_TOOLCHAIN_PREFIX=powerpc-apm-linux-gnu
+export ELDK=/tools/eldk/4.2
+export CROSS_COMPILE=powerpc-apm-linux-gnu-
+export PATH="${CS_TOOLCHAIN_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/etc:/usr/X11R6/bin:/tools/perforce/p4/v2012.1/bin/:${ELDK}/usr/bin:${ELDK}/bin:${ELDK}/sbin"
+# add cscope
+export PATH="${PATH}:/AMCC/dthnguyen/cscope/bin"
+export ARCH=powerpc
+export CROSS_COMPILE=$CS_TOOLCHAIN_PREFIX-
+#export CROSS_COMPILE=ppc_4xx- 
+#export CROSS_COMPILE=ppc_4xxFP- 
+
+# ddwrt toolchain
+#export CROSS_COMPILE=powerpc-linux- 
+#export PATH="/AMCC/dthnguyen/ddwrt_toolchain/toolchain-powerpc/bin:${PATH}"
+
+# enable mips toolchain
+#export PATH="${PATH}:/AMCC/dthnguyen/my_bin/mips-2011.03/bin"
+#export CROSS_COMPILE=mips-linux-gnu-
+#export ARCH=mips
+
+# arm code sourcery toolchain
+#export ARM_TOOLCHAIN=/AMCC/dthnguyen/arm-toolchain/arm-2011.03/bin
+
+# quick link
+export mybin=/user/hcm/dthnguyen/my_bin
+export PATH="${PATH}:${mybin}"
+
+# STORM toolchain
+export PATH="${PATH}:/tools/arm/armv8/Theobroma/opt/apm-aarch64/4.0.4/bin/"
+export USER_SHARE=/win/hcm/shared/engineering/SOFTWARE_VDC/Working/Dien_Nguyen
+alias sw_storm="export P4CLIENT=dthnguyen_hcmlab_hcmlwv009_storm; \
+	cd /${USER_SHARE}/p4_storm/"
+
+# COLORS
+BLACK="\033[1;30m"
+RED="\033[1;31m"
+GREEN="\033[1;32m"
+WHITE="\033[1;37m"
+BLUE="\033[1;34m"
+NORMAL="\033[0;39m"
+YELLOW="\033[33;40m"
+
+DOT="${GREEN}*${WHITE}"
+V_TAB="48"
+DO_V_TAB="\\033[${V_TAB}G"
+TAB="55"
+DO_TAB="echo -en \\033[${TAB}G"
+
+# MOTD
+source ~/.my_text
