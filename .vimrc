@@ -27,6 +27,7 @@
 echo "personal configuration from ~/.vimrc"
 nmap <C-l> :tabnext<CR>
 nmap <C-h> :tabprev<CR>
+
 set undolevels=100
 "set autoindent
 "set cindent
@@ -42,10 +43,8 @@ set tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
 "autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
 "autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
 "highlight EOLWS ctermbg=red guibg=red
-
 "auto delete trailing white space
 "nmap <C-m> :%s/\s\+$//<CR>:let @/=''<CR>
-
 "colorscheme evening
 "colorscheme morning
  " Status Line {  
@@ -166,6 +165,35 @@ if has ("cscope")
     nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
     nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
 
+    " Add comment and uncomment om vim by huyle
+    map qq :call Comment()<CR>
+    map ww :call Uncomment()<CR>
+
+    function! Comment()
+	let ft = &filetype
+	if ft == 'php' || ft == 'ruby' || ft == 'sh' || ft == 'make' || ft == 'python' || ft == 'perl'
+		silent s/^/\#/
+	elseif ft == 'c' || ft == 'cpp' || ft == 'java' || ft == 'javascript' || ft == 'objc' || ft == 'scala' || ft == 'go'
+		silent s:^:\/\/:g
+	elseif ft == 'tex'
+		silent s:^:%:g
+	elseif ft == 'vim'
+		silent s:^:\":g
+	endif
+    endfunction
+
+    function! Uncomment()
+	let ft = &filetype
+	if ft == 'php' || ft == 'ruby' || ft == 'sh' || ft == 'make' || ft == 'python' || ft == 'perl'
+		silent s/^\#//
+	elseif ft == 'c' || ft == 'cpp' || ft == 'java' || ft == 'javascript' || ft == 'objc' || ft == 'scala' || ft == 'go'
+		silent s:^\/\/::g
+	elseif ft == 'tex'
+		silent s:^%::g
+	elseif ft == 'vim'
+		silent s:^\"::g
+	endif
+    endfunction
 
     """"""""""""" key map timeouts
     "
