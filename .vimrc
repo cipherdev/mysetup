@@ -165,35 +165,41 @@ if has ("cscope")
     nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
     nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
 
-    " Add comment and uncomment om vim by huyle
-    map qq :call Comment()<CR>
-    map ww :call Uncomment()<CR>
+    " Add for NERDTreeToggle by HuyLe
+    execute pathogen#infect()
+    syntax on
+    filetype plugin indent on
+    map <C-n> :NERDTreeToggle<CR>
 
-    function! Comment()
-	let ft = &filetype
-	if ft == 'php' || ft == 'ruby' || ft == 'sh' || ft == 'make' || ft == 'python' || ft == 'perl'
-		silent s/^/\#/
-	elseif ft == 'c' || ft == 'cpp' || ft == 'java' || ft == 'javascript' || ft == 'objc' || ft == 'scala' || ft == 'go'
-		silent s:^:\/\/:g
-	elseif ft == 'tex'
-		silent s:^:%:g
-	elseif ft == 'vim'
-		silent s:^:\":g
-	endif
-    endfunction
-
-    function! Uncomment()
-	let ft = &filetype
-	if ft == 'php' || ft == 'ruby' || ft == 'sh' || ft == 'make' || ft == 'python' || ft == 'perl'
-		silent s/^\#//
-	elseif ft == 'c' || ft == 'cpp' || ft == 'java' || ft == 'javascript' || ft == 'objc' || ft == 'scala' || ft == 'go'
-		silent s:^\/\/::g
-	elseif ft == 'tex'
-		silent s:^%::g
-	elseif ft == 'vim'
-		silent s:^\"::g
-	endif
-    endfunction
+   "  " Add comment and uncomment by HuyLe
+   " map qq :call Comment()<CR>
+   " map ww :call Uncomment()<CR>
+   "  
+   "  function! Comment()
+	" let ft = &filetype
+	" if ft == 'php' || ft == 'ruby' || ft == 'sh' || ft == 'make' || ft == 'python' || ft == 'perl'
+	" 	silent s/^/\#/
+	" elseif ft == 'c' || ft == 'cpp' || ft == 'java' || ft == 'javascript' || ft == 'go'
+	" 	silent s:^:\/\/:g
+	" elseif ft == 'tex'
+	" 	silent s:^:%:g
+	" elseif ft == 'vim'
+	" 	silent s:^:\":g
+	" endif
+   "  endfunction
+   "
+   "  function! Uncomment()
+	" let ft = &filetype
+	" if ft == 'php' || ft == 'ruby' || ft == 'sh' || ft == 'make' || ft == 'python' || ft == 'perl'
+	" 	silent s/^\#//
+	" elseif ft == 'c' || ft == 'cpp' || ft == 'java' || ft == 'javascript' || ft == 'go'
+	" 	silent s:^\/\/::g
+	" elseif ft == 'tex'
+	" 	silent s:^%::g
+	" elseif ft == 'vim'
+	" 	silent s:^\"::g
+	" endif
+   "  endfunction
 
     """"""""""""" key map timeouts
     "

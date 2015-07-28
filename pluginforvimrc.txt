@@ -1,0 +1,30 @@
+1. Install pathogen.vim
+cd ~/.vim
+git clone https://github.com/tpope/vim-pathogen.git
+cp -rf ~/.vim/vim-pathogen/* .
+mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+#Adding to ~/vimrc 
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+2. Install NerdTree
+cd ~/.vim/bundle
+git clone https://github.com/scrooloose/nerdtree.git
+# Then reload vim, run :Helptags,
+# And check out :help NERD_tree.txt
+# Stick this in your .vimrc to open NERDTree with Ctrl+n (you can set whatever key you want):
+map <C-n> :NERDTreeToggle<CR>
+
+3. Install tcomment
+#http://www.vim.org/scripts/script.php?script_id=1173
+#Download: tcomment.vba
+cp -rf tcomment.vba ~/.vim
+vim tcomment.vba 
+:so %
+
+Usage:
+
+Ctrl _ b or \ _ b	# Comment block
+ctrl _ b	# Select char for comment 
+Ctrl _ _ Comment and uncomment
+
