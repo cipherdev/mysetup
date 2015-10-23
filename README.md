@@ -25,15 +25,17 @@ cp -rf .cshrc ~/
 #note for ubuntu: ~/.bashrc
 
 #note for gitcodebase
-mkdir codebase
-cd codebase
-git init --bare
-cd ..
-git clone codebase xuno
-mv xuno/* xuno_wk/
-git add -A ./
-git commit
-git push origin master
-git diff ./   or  git diff HEAD
+@mkdir codebase
+@cd codebase
+@git init --bare
+@cd ..
+@git clone codebase xuno
+@mv xuno/* xuno_wk/
+@git add -A ./
+@git commit
+@git push origin master
+@git diff ./   or  git diff HEAD
+#
+
 
 
