@@ -35,7 +35,19 @@ cp -rf .cshrc ~/
 @git commit
 @git push origin master
 @git diff ./   or  git diff HEAD
-#
+
+#Note Tmux 
+apt-get install tmux
+cp -rd .tmux.conf ~/
+#reload tmux
+tmux source-file ~/.tmux.conf
+#kill tmux
+tmux kill-server
+#Set Ctrl+A 
+# q: To exit scroll pane
+# z or Z to on/off mouse
+# x: To exit one pane
+# 
 
 
 
