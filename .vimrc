@@ -60,9 +60,9 @@ set tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
        set statusline+=%<%P                         " file position  
 "}
 
-colorscheme desert
+"colorscheme desert
 
-set csprg=/AMCC/hule/tools/bin/cscope
+set csprg=/usr/bin/cscope
 "set csprg=/usr/bin/cscope
 " This tests to see if vim was configured with the '--enable-cscope' option
 " when it was compiled.  If it wasn't, time to recompile vim...
@@ -164,12 +164,14 @@ if has ("cscope")
     nmap <C-@><C-@>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>
     nmap <C-@><C-@>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
     nmap <C-@><C-@>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
-
+	
+    " HuyLe add: Auto update cscope.out database in vim editor uing F10 key to sync
+    map <F10> :!cscope -Rbq<CR>:cs reset<CR><CR> 
     " Add for NERDTreeToggle by HuyLe
-    execute pathogen#infect()
-    syntax on
-    filetype plugin indent on
-    map <C-n> :NERDTreeToggle<CR>
+    "execute pathogen#infect()
+    "syntax on
+    "filetype plugin indent on
+    "map <C-n> :NERDTreeToggle<CR>
 
    "  " Add comment and uncomment by HuyLe
    " map qq :call Comment()<CR>
@@ -234,8 +236,7 @@ if has ("cscope")
         cs add cscope.out
     " else add the database pointed to by environment variable
     elseif $CSCOPE_DB != ""
+	"echo $CSCOPE_DB
         cs add $CSCOPE_DB
     endif
 endif
-
-
