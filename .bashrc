@@ -122,6 +122,7 @@ fi
 alias cls='clear'
 alias sw7='ssh -Y hule@10.38.12.21'
 alias sw4='ssh -Y hule@10.38.12.20'
+alias svus='ssh -Y amcclab@10.76.209.247' #pass:amcc1234
 alias swxfi1='ssh -Y amcclab@10.38.12.56'
 alias swxfi2='ssh -Y hule@10.38.12.57'
 alias amcclaptop='ssh -Y amcc@10.38.13.22'
